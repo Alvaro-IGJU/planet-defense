@@ -1,5 +1,6 @@
 import random
 from math import sqrt
+import raylibpy as rl
 
 # Planeta base
 class Tower:
@@ -8,20 +9,25 @@ class Tower:
         self.health = 100
         self.range = 250
         self.attack_cooldown = 0
+        self.color = rl.BLUE
         self.type = planet_type  # Tipo de planeta: healer, long_range, tank, mine, fast, etc.
         
         # Personalización según el tipo de planeta
         if self.type == "healer":
             self.health = 80  # Un healer tiene menos salud
+            self.color = rl.GREEN
             self.heal_radius = 100  # Rango de curación
         elif self.type == "long_range":
             self.range = 400  # Rango más largo
+            self.color = rl.YELLOW  # Rango más largo
         elif self.type == "tank":
             self.health = 200  # Más salud, resistente
             self.range = 200  # Rango más pequeño
+            self.color = rl.GREY
         elif self.type == "mine":
             self.health = 50  # Las minas son frágiles
             self.range = 50   # Rango limitado a la mina
+            self.color = rl.BLACK  # Rango más largo
         elif self.type == "fast":
             self.health = 80  # Menos salud por ser rápido
             self.range = 300  # Rango medio
