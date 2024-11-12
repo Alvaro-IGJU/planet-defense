@@ -8,6 +8,7 @@ class Tower:
         self.position = position
         self.health = 100
         self.range = 250
+        self.attack_speed = 10
         self.attack_cooldown = 0
         self.color = rl.BLUE
         self.type = planet_type  # Tipo de planeta: healer, long_range, tank, mine, fast, etc.
@@ -20,6 +21,7 @@ class Tower:
         elif self.type == "long_range":
             self.range = 400  # Rango más largo
             self.color = rl.YELLOW  # Rango más largo
+            self.attack_speed = 10
         elif self.type == "tank":
             self.health = 200  # Más salud, resistente
             self.range = 200  # Rango más pequeño
@@ -31,6 +33,10 @@ class Tower:
         elif self.type == "fast":
             self.health = 80  # Menos salud por ser rápido
             self.range = 300  # Rango medio
+            self.attack_speed = 60
+        elif self.type == "directional_turret":
+            self.health = 0  # Menos salud por ser rápido
+            self.range = 0  # Rango medio
 
     def attack(self, enemies):
         # Este método será sobreescrito por cada tipo de planeta para hacer un ataque específico.
@@ -52,6 +58,12 @@ class Tower:
         dx = pos1[0] - pos2[0]
         dy = pos1[1] - pos2[1]
         return sqrt(dx**2 + dy**2)
+
+    def draw(self):
+        rl.draw_circle_lines(int(self.position[0]), int(self.position[1]), self.range, rl.BLUE)
+        rl.draw_circle(int(self.position[0]), int(self.position[1]), 20, self.color)
+        tower_health_text = f"{self.health}"
+        rl.draw_text(tower_health_text, int(self.position[0] - 7), int(self.position[1] - 5), 10, rl.BLACK)
 
 
 # Mina

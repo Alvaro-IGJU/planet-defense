@@ -15,19 +15,4 @@ def predict_enemy_position(tower_position, enemy_position, enemy_speed):
             enemy_position[1] + dy / dist * enemy_speed * time_to_hit)
 
 
-# Función de creación de enemigos para facilitar el manejo
-def create_enemy(position, type="basic"):
-    if type == "fast":
-        return Enemy(position, health=40, speed=3.0, type="fast")
-    elif type == "tank":
-        return Enemy(position, health=200, speed=0.8, type="tank")
-    elif type == "healer":
-        return Enemy(position, health=60, speed=1.2, type="healer")
-    elif type == "leader":
-        return Enemy(position, health=80, speed=1.0, type="leader")
-    elif type == "explosive":
-        return Enemy(position, health=50, speed=1.5, type="explosive")
-    elif type == "evader":
-        return Enemy(position, health=40, speed=1.0, type="evader")
-    else:
-        return Enemy(position)  # Básico por defecto
+

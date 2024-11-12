@@ -1,4 +1,5 @@
 from math import sqrt
+import raylibpy as rl
 
 def distance(pos1, pos2):
     dx = pos1[0] - pos2[0]
@@ -7,6 +8,9 @@ def distance(pos1, pos2):
 
 # Clase del enemigo
 class Enemy:
+
+    enemy_types = ["fast", "tank", "healer", "leader", "explosive", "evader"]
+
     def __init__(self, position, health=50, speed=1.5, type="basic"):
         self.position = position
         self.health = health
@@ -28,6 +32,11 @@ class Enemy:
                 self.position = (self.position[0] + (projectile.direction[1] * 5),
                                  self.position[1] - (projectile.direction[0] * 5))
 
+    def draw(self):
+        rl.draw_circle(int(self.position[0]), int(self.position[1]), 10, rl.RED)
+        health_text = f"{self.health}"
+        rl.draw_text(health_text, int(self.position[0] - len(health_text) * 3), int(self.position[1] - 25), 10, rl.RED)
+
     def apply_special_effect(self, other_enemies, projectiles=None):
         if self.type == "healer":
             for enemy in other_enemies:
@@ -41,24 +50,10 @@ class Enemy:
 
             # Si es un evader, esquiva los proyectiles
             if projectiles:
-                print("ESQUIVA")
                 self.evade_projectiles(projectiles)
         # Puedes seguir agregando otros efectos especiales para otros tipos de enemigos.
 
     def is_dead(self):
         return self.health <= 0
     
-# Función de creación de enemigos para facilitar el manejo
-def create_enemy(position, type="basic"):
-    if type == "fast":
-        return Enemy(position, health=40, speed=3.0, type="fast")
-    elif type == "tank":
-        return Enemy(position, health=200, speed=0.8, type="tank")
-    elif type == "healer":
-        return Enemy(position, health=60, speed=1.2, type="healer")
-    elif type == "leader":
-        return Enemy(position, health=80, speed=1.0, type="leader")
-    elif type == "evader":
-        return Enemy(position, health=50, speed=2.5, type="evader")  # Evader es rápido y escurridizo
-    else:
-        return Enemy(position)  # Básico por defecto
+
