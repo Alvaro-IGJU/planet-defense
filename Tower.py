@@ -5,7 +5,7 @@ import raylibpy as rl
 # Planeta base
 class Tower:
     def __init__(self, position, planet_type="basic"):
-        self.position = position
+        self.position = list(position)
         self.health = 100
         self.range = 250
         self.attack_speed = 10
@@ -25,7 +25,7 @@ class Tower:
         elif self.type == "tank":
             self.health = 200  # Más salud, resistente
             self.range = 200  # Rango más pequeño
-            self.color = rl.GREY
+            self.color = rl.GRAY
         elif self.type == "mine":
             self.health = 50  # Las minas son frágiles
             self.range = 50   # Rango limitado a la mina

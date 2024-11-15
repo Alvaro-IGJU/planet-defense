@@ -12,7 +12,14 @@ from PlanetBar import PlanetBar
 MENU = 0
 GAME = 1
 current_screen = MENU
-planetBar = PlanetBar([Tower(position=(400, 500))])
+planetBar = PlanetBar(
+    [Tower(position=(400, 500)),
+     Tower(position=(400, 500), planet_type='long_range'),
+     Tower(position=(400, 500), planet_type='tank'),
+     Tower(position=(400, 500), planet_type='healer'),
+     Tower(position=(400, 500), planet_type='fast'),
+     ]
+    )
 
 # Funciones del menú
 def update_menu():
@@ -83,6 +90,11 @@ def draw_game(towers, enemies, projectiles, round_instance):
 
     # Dibuja el botón de preparación si estamos en esa fase
     if round_instance.phase == "preparation":
+        planetBar.draw_selected_planet()
+        planetBar.place_selected_planet()
+        for planet in planetBar.get_placed_planets():
+            print("SE DIBUJA PLANETA ", planet.type)
+            planet.draw()
         x_preparation_btn, y_preparation_btn, w_preparation_btn, y_preparation_btn = planetBar.planet_buttons[-1]["rect"]
         if planetBar.check_preparation_button(x_preparation_btn, y_preparation_btn, w_preparation_btn, y_preparation_btn):
             round_instance.start_attack_phase()
@@ -103,7 +115,7 @@ def main():
     rl.set_target_fps(60)
 
     # Inicialización de torres, enemigos, proyectiles y ronda
-    towers = [Tower(position=(400, 500)), Tower(position=(700, 500), planet_type="long_range")]
+    towers = planetBar.get_placed_planets()
  
     projectiles = []
     round_instance = Round(attack_duration=60, planet_bar= planetBar)  # La duración de ataque se maneja en la ronda

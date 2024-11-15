@@ -8,6 +8,7 @@ class PlanetBar:
         :param planets: Lista de tipos de planetas disponibles (por ejemplo, "basic", "long_range", etc.).
         """
         self.planets = planets  # Lista de planetas disponibles para seleccionar
+        self.placed_planets = []
         self.selected_planet = None  # Planeta seleccionado por el usuario
         self.planet_buttons = self.create_buttons()
         self.preparation_is_able = True
@@ -76,10 +77,43 @@ class PlanetBar:
     def check_planet_button_click(self):
         if self.planet_buttons_is_able:
             """Verifica si el usuario ha hecho clic en un botón de planeta y actualiza el planeta seleccionado."""
-            if rl.is_mouse_button_pressed(rl.MOUSE_LEFT_BUTTON):
+            if rl.is_mouse_button_down(rl.MOUSE_LEFT_BUTTON):
                 mouse_x, mouse_y = rl.get_mouse_x(), rl.get_mouse_y()
                 for button in self.planet_buttons:
                     x, y, width, height = button["rect"]
                     if x <= mouse_x <= x + width and y <= mouse_y <= y + height:
                         self.selected_planet = button["type"]
                         print(f"Planeta seleccionado: {self.selected_planet}")
+
+    def draw_selected_planet(self):
+        """Dibuja el planeta seleccionado en la posición actual del ratón."""
+        if self.selected_planet:
+            # Busca el planeta en self.planets con el tipo correspondiente a self.selected_planet
+            for planet in self.planets:
+                if planet.type == self.selected_planet:
+                    # Obtiene la posición del ratón
+                    mouse_x, mouse_y = rl.get_mouse_x(), rl.get_mouse_y()
+                    planet.position[0] = mouse_x
+                    planet.position[1] = mouse_y
+                    # Llama al método draw() del planeta encontrado, pasando la posición del ratón
+                    planet.draw()
+                    break  # Sale del bucle una vez que ha encontrado y dibujado el planeta
+
+    def place_selected_planet(self):
+        if self.selected_planet and rl.is_mouse_button_pressed(rl.MOUSE_LEFT_BUTTON):
+            print(self.placed_planets)
+
+            for planet in self.planets:
+                if planet.type == self.selected_planet:
+                    # Obtiene la posición del ratón
+                    mouse_x, mouse_y = rl.get_mouse_x(), rl.get_mouse_y()
+                    planet.position[0] = mouse_x
+                    planet.position[1] = mouse_y
+                    # Llama al método draw() del planeta encontrado, pasando la posición del ratón
+                    self.placed_planets.append(planet)
+                    self.selected_planet = None
+                    break  # Sale del bucle una vez que ha encontrado y dibujado el planeta
+
+
+    def get_placed_planets(self):
+        return self.placed_planets             
