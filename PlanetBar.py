@@ -52,7 +52,7 @@ class PlanetBar:
             self.draw_preparation_button(x_preparation_btn, y_preparation_btn, w_preparation_btn, y_preparation_btn)
         # Dibuja el botón de "Comenzar Ronda" y verifica si se ha presionado
     def draw_preparation_button(self, x , y, width, height):
-        if self.preparation_is_able:
+        if self.preparation_is_able and len(self.get_placed_planets()):
 
             # Dimensiones del botón
             button_x, button_y, button_width, button_height = x, y, width, height
@@ -64,7 +64,7 @@ class PlanetBar:
 
         
     def check_preparation_button(self, x , y, width, height):
-        if self.preparation_is_able:
+        if self.preparation_is_able and len(self.get_placed_planets()):
             button_x, button_y, button_width, button_height = x, y, width, height
             if rl.is_mouse_button_pressed(rl.MOUSE_LEFT_BUTTON):
                 mouse_x, mouse_y = rl.get_mouse_x(), rl.get_mouse_y()
